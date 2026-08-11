@@ -1,0 +1,278 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "execute_python",
+      "description": "Execute Python code and return the output. Use for calculations, data processing, or scripting tasks.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The Python code to execute"
+          }
+        },
+        "required": ["code"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "execute_shell",
+      "description": "Execute a PowerShell or CMD command on the local system. Use for system management tasks.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The shell command to execute"
+          },
+          "shell": {
+            "type": "string",
+            "enum": ["powershell", "cmd"],
+            "description": "Which shell to use (default: powershell)"
+          }
+        },
+        "required": ["command"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "read_file",
+      "description": "Read the contents of a file from the local filesystem.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute or relative path to the file"
+          },
+          "encoding": {
+            "type": "string",
+            "description": "File encoding (default: utf-8)"
+          }
+        },
+        "required": ["path"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "write_file",
+      "description": "Write content to a file on the local filesystem.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute or relative path to the file"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          },
+          "mode": {
+            "type": "string",
+            "enum": ["write", "append"],
+            "description": "Write mode: 'write' (overwrite) or 'append' (add to end)"
+          }
+        },
+        "required": ["path", "content"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "list_files",
+      "description": "List files and directories in a given path.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Directory path to list"
+          },
+          "pattern": {
+            "type": "string",
+            "description": "Glob pattern to filter files (e.g., '*.py', '*.txt')"
+          }
+        },
+        "required": ["path"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "web_search",
+      "description": "Search the web for information. Returns top 5 results with titles, snippets, and URLs.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "set_reminder",
+      "description": "Set a reminder for a specific time. E.V. will notify the user when it's time.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Brief title of the reminder"
+          },
+          "due_time": {
+            "type": "string",
+            "description": "When to remind, in ISO format (YYYY-MM-DDTHH:MM:SS) or natural language like 'in 30 minutes', 'tomorrow at 9am'"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional detailed description"
+          }
+        },
+        "required": ["title", "due_time"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_reminders",
+      "description": "Get a list of upcoming or pending reminders.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["upcoming", "pending", "all"],
+            "description": "Filter reminders by status"
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "take_screenshot",
+      "description": "Take a screenshot of the current screen or active window.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": ["full_screen", "active_window"],
+            "description": "What to capture"
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "analyze_image",
+      "description": "Analyze an image using AI vision. Can describe content, read text, identify objects.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "image_path": {
+            "type": "string",
+            "description": "Path to the image file to analyze"
+          },
+          "question": {
+            "type": "string",
+            "description": "Specific question about the image (optional)"
+          }
+        },
+        "required": ["image_path"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "automate_app",
+      "description": "Perform automation actions on the desktop: open apps, open web URLs, search/play music or videos on YouTube/Spotify, type text, click, press keys, control volume/windows.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["open_app", "open_url", "play_media", "close_app", "type_text", "press_key", "click", "move_mouse", "minimize", "maximize", "set_volume"],
+            "description": "The automation action to perform. Use 'play_media' to search/play songs or videos on YouTube/Spotify, 'open_url' for websites, 'open_app' for desktop software."
+          },
+          "target": {
+            "type": "string",
+            "description": "Target of the action (e.g., 'youtube', 'spotify', app name 'chrome', URL 'https://...', key name 'playpause', 'enter', coords 'x,y', etc.)"
+          },
+          "value": {
+            "type": "string",
+            "description": "Additional parameter (e.g. song/video search query for play_media, search query for browser, text for type_text, volume 0-100 for set_volume)"
+          }
+        },
+        "required": ["action", "target"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "remember_fact",
+      "description": "Store an important fact or piece of information in long-term memory for future reference.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "fact": {
+            "type": "string",
+            "description": "The fact or information to remember"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["user_preference", "user_info", "task", "knowledge", "general"],
+            "description": "Category of the fact"
+          }
+        },
+        "required": ["fact", "category"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "recall_facts",
+      "description": "Search long-term memory for relevant information.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "What to search for in memory"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["user_preference", "user_info", "task", "knowledge", "general"],
+            "description": "Optional: filter by category"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  }
+]

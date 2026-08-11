@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E.V. Agent — Enhanced Virtual Assistant</title>
+    <meta name="description" content="E.V. — AI Personal Assistant inspired by Spider-Man: Brand New Day">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Highlight.js Syntax Highlighting Theme (Atom One Dark) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Design System -->
+    <link rel="stylesheet" href="/static/style.css?v=2.0.0">
+</head>
+<body>
+    <!-- Ambient Cyber Mesh & Particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="cyber-grid-overlay"></div>
+
+    <!-- Main Application Wrapper -->
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="brand-core">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="16" r="14" stroke="url(#sidebarGrad)" stroke-width="2.5" fill="none"/>
+                            <path d="M10 20 L16 10 L22 20" stroke="url(#sidebarGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <defs>
+                                <linearGradient id="sidebarGrad" x1="0" y1="0" x2="32" y2="32">
+                                    <stop offset="0%" stop-color="#06b6d4"/>
+                                    <stop offset="100%" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">E.V. AGENT</span>
+                        <span class="brand-version">v2.0 CYBER</span>
+                    </div>
+                </div>
+                <button class="icon-btn sidebar-close-btn" onclick="toggleSidebar()" title="Thu gọn Sidebar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- New Session Button -->
+            <button class="new-chat-btn" onclick="clearChatSession()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Cuộc trò chuyện mới</span>
+            </button>
+
+            <!-- HUD Info Blocks -->
+            <div class="sidebar-content">
+                <!-- System Brain Nodes -->
+                <div class="hud-card">
+                    <div class="hud-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                        <span>LLM Fallback Nodes</span>
+                    </div>
+                    <div class="hud-node-list">
+                        <div class="hud-node active"><span class="node-dot"></span>OpenRouter</div>
+                        <div class="hud-node"><span class="node-dot"></span>Groq Llama 3</div>
+                        <div class="hud-node"><span class="node-dot"></span>Gemini Flash</div>
+                        <div class="hud-node"><span class="node-dot"></span>DeepSeek R1</div>
+                    </div>
+                </div>
+
+
+                <!-- Memory Matrix -->
+                <div class="hud-card">
+                    <div class="hud-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        <span>Memory Engine</span>
+                    </div>
+                    <div class="hud-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">ChromaDB Vectors</span>
+                            <span class="stat-val" id="chromaCount">—</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">SQLite Context</span>
+                            <span class="stat-val" id="sqliteCount">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Fleet -->
+                <div class="hud-card">
+                    <div class="hud-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        <span>Active Tools Fleet</span>
+                    </div>
+                    <div class="tools-grid" id="toolsGrid">
+                        <span class="tool-tag">Shell</span>
+                        <span class="tool-tag">Python</span>
+                        <span class="tool-tag">WebSearch</span>
+                        <span class="tool-tag">Vision</span>
+                        <span class="tool-tag">Memory</span>
+                        <span class="tool-tag">EdgeTTS</span>
+                    </div>
+                </div>
+
+                <!-- Recent Chat History -->
+                <div class="hud-card history-card">
+                    <div class="hud-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Lịch sử 5 cuộc trò chuyện</span>
+                    </div>
+                    <div class="history-session-list" id="historySessionList">
+                        <div class="history-empty">Đang tải lịch sử...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer Controls -->
+            <div class="sidebar-footer">
+                <button class="hud-toggle-btn" id="sfxToggleBtn" onclick="toggleSFX()" title="Bật/tắt hiệu ứng âm thanh UI">
+                    <span class="hud-icon" id="sfxIcon">🔊</span>
+                    <span>Âm thanh SFX</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-workspace">
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="icon-btn sidebar-open-btn" onclick="toggleSidebar()" title="Mở Sidebar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div class="header-title-box">
+                        <span class="app-title">E.V. Core</span>
+                        <span class="app-badge">ONLINE</span>
+                    </div>
+                </div>
+
+                <!-- Hologram Reactive Audio Visualizer Core -->
+                <div class="hologram-visualizer-container">
+                    <canvas id="audioVisualizer" width="140" height="32"></canvas>
+                    <span class="visualizer-label" id="visualizerState">IDLE MATRIX</span>
+                </div>
+
+                <!-- Header Right Controls -->
+                <div class="header-controls">
+                    <button class="tts-toggle-btn" id="ttsToggleBtn" onclick="toggleAutoTTS()" title="Bật/Tắt giọng đọc tự động">
+                        <span class="tts-icon" id="ttsIcon">🔇</span>
+                        <span class="tts-label" id="ttsLabel">Tự đọc</span>
+                        <div class="toggle-switch" id="ttsSwitch">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </button>
+                    <div class="header-status">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span class="status-text" id="statusText">Connecting...</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <section class="chat-area" id="chatArea">
+                <!-- Welcome View -->
+                <div class="chat-welcome" id="chatWelcome">
+                    <div class="welcome-orb">
+                        <div class="orb-core">🕷️</div>
+                        <div class="orb-ring ring-1"></div>
+                        <div class="orb-ring ring-2"></div>
+                    </div>
+                    <h2>SYSTEM ONLINE — HELLO, I'M E.V.</h2>
+                    <p>Trợ lý ảo cá nhân thông minh. Nhập văn bản, tải ảnh, hoặc dùng micro để ra lệnh.</p>
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="sendQuickMessage('Bạn có thể làm được những gì?')">
+                            <span class="quick-icon">💡</span> Bạn có thể làm gì?
+                        </button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Hôm nay thời tiết ra sao?')">
+                            <span class="quick-icon">🌤️</span> Thời tiết
+                        </button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Mở trình duyệt Chrome giúp tôi')">
+                            <span class="quick-icon">🌐</span> Mở Chrome
+                        </button>
+                        <button class="quick-btn" onclick="sendQuickMessage('/python print(\'Hello from E.V.!\')')">
+                            <span class="quick-icon">⚡</span> Chạy Python
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Stream -->
+                <div class="chat-messages" id="chatMessages"></div>
+            </section>
+
+            <!-- Drag and Drop Overlay -->
+            <div class="drag-drop-overlay hidden" id="dragDropOverlay">
+                <div class="drag-drop-box">
+                    <div class="drag-icon-wrapper">📁</div>
+                    <span class="drag-text">Kéo thả tệp hoặc hình ảnh vào đây</span>
+                    <span class="drag-subtext">Hỗ trợ ảnh, mã nguồn, tài liệu text</span>
+                </div>
+            </div>
+
+            <!-- Input Footer -->
+            <footer class="input-bar">
+                <!-- Slash Command Suggestions Popup -->
+                <div class="slash-suggest-popup hidden" id="slashSuggestPopup">
+                    <div class="slash-suggest-header">⚡ Chọn công cụ (Tool Mode)</div>
+                    <div class="slash-suggest-list" id="slashSuggestList"></div>
+                </div>
+
+                <!-- Attachments Preview Bar -->
+                <div class="attachment-preview-bar hidden" id="attachmentPreviewBar"></div>
+
+                <div class="input-container">
+                    <!-- Hidden file input -->
+                    <input type="file" id="fileInput" multiple accept="*/*" class="hidden">
+                    
+                    <!-- Attach button -->
+                    <button class="attach-btn" id="attachBtn" onclick="triggerFileInput()" title="Đính kèm hình ảnh hoặc tệp (Ctrl+V / Kéo thả)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Auto-expanding Textarea -->
+                    <textarea id="messageInput" rows="1" placeholder="Nhập tin nhắn (Shift+Enter để xuống dòng, gõ / để dùng Tools)..." autocomplete="off" spellcheck="false"></textarea>
+                    
+                    <!-- Send button -->
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Gửi (Enter)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Voice Mic Button -->
+                <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Bấm để nói (Web Speech API)">
+                    <div class="mic-pulse" id="micPulse"></div>
+                    <svg class="mic-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                    <svg class="mic-icon-stop hidden" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                    </svg>
+                </button>
+            </footer>
+        </main>
+    </div>
+
+    <!-- TTS Audio Player -->
+    <audio id="ttsPlayer" preload="none"></audio>
+
+    <!-- Marked CDN 11.1.1 for Markdown Parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    
+    <!-- Highlight.js CDN for Code Syntax Highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <!-- Main Application JavaScript -->
+    <script src="/static/app.js?v=2.0.1"></script>
+</body>
+</html>

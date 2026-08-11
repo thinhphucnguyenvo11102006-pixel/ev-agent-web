@@ -1,0 +1,41 @@
+# Python / Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables & API Keys (DO NOT COMMIT)
+.env
+.env.*
+!.env.example
+
+# Runtime Data, Databases, Browser Profiles & Artifacts
+data/
+memory/*.db
+memory/*.sqlite
+memory/*.chroma
+brain/__pycache__/
+tools/__pycache__/
+memory/__pycache__/
+
+# Logs & Media Cache
+*.log
+desktop_launch.log
+wake_word.log
+*.mp3
+*.wav
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
