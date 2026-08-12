@@ -291,8 +291,10 @@ def create_openrouter_client() -> Optional[LLMClient]:
     )
 
 
-def create_deepseek_client() -> LLMClient:
-    """Create a DeepSeek LLM client with default config."""
+def create_deepseek_client() -> Optional[LLMClient]:
+    """Create a DeepSeek LLM client if API key is available."""
+    if not config.DEEPSEEK_API_KEY:
+        return None
     return LLMClient(
         api_key=config.DEEPSEEK_API_KEY,
         model=config.DEEPSEEK_MODEL,
